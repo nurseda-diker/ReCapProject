@@ -18,7 +18,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<CarDetailDto> GetCarDetails()
         {
-            using (ReCapContext context=new ReCapContext())
+            using (ReCapContext context=new ReCapContext()) 
             {
                 var result = from car in context.Cars
                              join brand in context.Brands on car.BrandId equals brand.Id
