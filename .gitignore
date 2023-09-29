@@ -320,7 +320,7 @@ __pycache__/
 # tools/**
 # !tools/packages.config
 
-*.config
+
 # Tabs Studio
 *.tss
 
