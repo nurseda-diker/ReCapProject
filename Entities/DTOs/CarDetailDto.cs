@@ -17,5 +17,6 @@ namespace Entities.DTOs
         public string BrandName { get; set; }
         public string ColorName { get; set; }
         public string CarImage { get; set; }
+        public int FindexPoint { get; set; }
     }
 }

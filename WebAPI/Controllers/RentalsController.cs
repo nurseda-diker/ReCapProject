@@ -71,10 +71,46 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("rulesforadding")]
-
         public IActionResult RulesForAdding(Rental rental)
         {
             var result = _rentalService.RulesForAdding(rental);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+
+        [HttpGet("findexscorecheck")]
+        public IActionResult FındexScoreCheck(int customerId,int carId)
+        {
+            var result = _rentalService.FindexScoreCheck(customerId, carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("isrentable")]
+        public IActionResult IsRentable(int carId)
+        {
+            var result = _rentalService.IsRentable(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("carisreturned")]
+        public IActionResult CarIsReturned(int carId)
+        {
+            var result = _rentalService.CarIsReturned(carId);
             if (result.Success)
             {
                 return Ok(result);

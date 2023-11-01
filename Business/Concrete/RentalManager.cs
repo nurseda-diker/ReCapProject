@@ -20,9 +20,13 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
-        public RentalManager(IRentalDal rentalDal)
+        ICustomerService _customerService;
+        ICarService _carService;
+        public RentalManager(IRentalDal rentalDal,ICustomerService customerService,ICarService carService)
         {
             _rentalDal = rentalDal;
+            _customerService = customerService;
+            _carService = carService;
         }
 
         [ValidationAspect(typeof(RentalValidator))]
@@ -34,8 +38,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalAdded);
 
         }
-
-        
 
         public IResult Delete(Rental rental)
         {
@@ -61,7 +63,8 @@ namespace Business.Concrete
         public IResult RulesForAdding(Rental rental)
         {
             var result = BusinessRules.Run(CheckIfThisCarIsAlreadyRentedInSelectedDateRange(rental),
-                        CheckIfReturnDateIsBeforeRentDate(rental.ReturnDate,Convert.ToDateTime(rental.RentDate)));
+                        CheckIfReturnDateIsBeforeRentDate(rental.ReturnDate,Convert.ToDateTime(rental.RentDate)),
+                        UpdateCustomerFindexScore(rental.CustomerId,rental.CarId));
 
             if(result != null)
             {
@@ -109,6 +112,48 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-       
+        public IResult FindexScoreCheck(int customerId, int carId)
+        {
+            var customerFindexScore = _customerService.GetById(customerId).Data.FindexPoint;
+            if(customerFindexScore == 0)
+            {
+                return new ErrorResult(Messages.CustomerFindexScoreIsZero);
+            }
+            var carFindexScore = _carService.GetById(carId).Data.FindexPoint;
+            if(customerFindexScore < carFindexScore)
+            {
+                return new ErrorResult(Messages.CustomerFindexScoreIsNotEnough);
+            }
+
+            return new SuccessResult();
+        }
+
+        private IResult UpdateCustomerFindexScore(int customerId,int carId)
+        {
+            var customer = _customerService.GetById(customerId).Data;
+            var car=_carService.GetById(carId).Data;
+
+            customer.FindexPoint = (car.FindexPoint / 2) + customer.FindexPoint;
+            _customerService.Update(customer);
+            return new SuccessResult();
+        }
+
+        public IResult IsRentable(int carId)
+        {
+            var result = _rentalDal.GetAll();
+            if(result.Where(r => r.CarId == carId && r.ReturnDate == null).Any())
+            {
+                return new ErrorResult(Messages.RentalInavalid);
+            }
+            return new SuccessResult(Messages.RentalSuccess);
+        }
+
+        public IResult CarIsReturned(int carId)
+        {
+            var result = _rentalDal.Get(r => r.CarId == carId && r.ReturnDate == null);
+            result.ReturnDate = DateTime.Now;
+            _rentalDal.Update(result);
+            return new SuccessResult(Messages.CarIsReturned);
+        }
     }
 }

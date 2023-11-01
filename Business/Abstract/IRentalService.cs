@@ -17,7 +17,10 @@ namespace Business.Abstract
         IDataResult<List<Rental>> GetAll();
         IDataResult<Rental> GetById(int id);
         IDataResult<List<RentalDto>> GetRentalDetails();
-
         IResult RulesForAdding(Rental rental);
+        IResult FindexScoreCheck(int customerId,int carId);
+        IResult IsRentable(int carId);
+        IResult CarIsReturned(int carId);
+
     }
 }

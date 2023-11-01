@@ -34,10 +34,38 @@ namespace DataAccess.Concrete.EntityFramework
                                  CarImage=carImage.ImagePath,
                                  BrandName = brand.Name,
                                  ColorName = color.Name,
+                                 FindexPoint=car.FindexPoint                                 
                              };
                 return result.ToList();
                              
             }   
+        }
+
+        public CarDetailDto GetCarDetailsByCarId(int carId)
+        {
+            using (ReCapContext context = new ReCapContext())
+            {
+                var result = from car in context.Cars
+                             join brand in context.Brands on car.BrandId equals brand.Id
+                             join color in context.Colors on car.ColorId equals color.Id
+                             join carImage in context.CarImages on car.CarId equals carImage.CarId
+                             where car.CarId==carId
+                             select new CarDetailDto
+                             {
+                                 CarId = car.CarId,
+                                 CarName = car.CarName,
+                                 ModelYear = car.ModelYear,
+                                 DailyPrice = car.DailyPrice,
+                                 Description = car.Description,
+                                 CarImage = carImage.ImagePath,
+                                 BrandName = brand.Name,
+                                 ColorName = color.Name,
+                                 FindexPoint = car.FindexPoint
+                             };
+
+                return result.SingleOrDefault();
+
+            }
         }
 
         public List<CarDetailDto> GetCarDetailsByBrandId(int brandId)
@@ -58,7 +86,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = car.DailyPrice,
                                  CarImage = carImage.ImagePath,
                                  Description = car.Description,
-                                 ModelYear = car.ModelYear
+                                 ModelYear = car.ModelYear,
+                                 FindexPoint = car.FindexPoint
 
                              };
                 return result.ToList();
@@ -84,7 +113,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  CarImage= carImage.ImagePath,
                                  DailyPrice = car.DailyPrice,
                                  Description = car.Description,
-                                 ModelYear = car.ModelYear
+                                 ModelYear = car.ModelYear,
+                                 FindexPoint = car.FindexPoint
                              };
                 return result.ToList();
 
@@ -126,17 +156,6 @@ namespace DataAccess.Concrete.EntityFramework
             
         }
 
-
-
-
-
-        
-                           
-                
-            
-
-
-
-
+       
     }
 }

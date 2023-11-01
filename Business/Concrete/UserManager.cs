@@ -50,6 +50,7 @@ namespace Business.Concrete
 
         public IResult Update(User user)
         {
+
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
@@ -57,9 +58,19 @@ namespace Business.Concrete
         {
             return _userDal.GetClaims(user);
         }
-        public User GetByMail(string email)
+        public IDataResult<User> GetByMail(string email)
         {
-            return _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email),Messages.Success);
+        }
+
+        public IResult UpdateInfo(User user)
+        {
+            var userToUpdate = GetById(user.Id).Data;
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            Update(userToUpdate);
+            return new SuccessResult(Messages.UserUpdated);
         }
     }
 }

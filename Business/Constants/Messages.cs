@@ -47,5 +47,11 @@ namespace Business.Constants
         public static string PaymentFailed="Ödeme başarısız";
         public static string PaymentSuccessFul="Ödeme başarılı";
         public static string BrandCanNotEmpty="Marka adı boş bırakılamaz.";
+        public static string CustomerFindexScoreIsZero="Müşterinin findeks puanı 0";
+        public static string CustomerFindexScoreIsNotEnough="Müşterinin findeks puanı yeterli değil.";
+        public static string RentalInavalid="Kiralama başarısız";
+        public static string RentalSuccess="Araç kiralanabilir.";
+        public static string CarIsReturned="Araba teslim edildi.";
+        public static string Success = "İşlem başarılı";
     }
 }

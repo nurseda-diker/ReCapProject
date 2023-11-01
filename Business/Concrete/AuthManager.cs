@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Result;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -15,12 +16,12 @@ namespace Business.Concrete
 {
     public class AuthManager : IAuthService
     {
-        private IUserService _userService;
+        private IUserDal _userDal;
         private ITokenHelper _tokenHelper;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(ITokenHelper tokenHelper,IUserDal userDal)
         {
-            _userService = userService;
+            _userDal = userDal;
             _tokenHelper = tokenHelper;
         }
 
@@ -37,13 +38,13 @@ namespace Business.Concrete
                 PasswordSalt = passwordSalt,
                 Status = true
             };
-            _userService.Add(user);
+            _userDal.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
-            var userToCheck = _userService.GetByMail(userForLoginDto.Email);
+            var userToCheck = _userDal.Get(u=>u.Email==userForLoginDto.Email);
             if (userToCheck == null)
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
@@ -59,7 +60,7 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetByMail(email) != null)
+            if (_userDal.Get(u=>u.Email==email)!=null)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }
@@ -68,9 +69,11 @@ namespace Business.Concrete
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
-            var claims = _userService.GetClaims(user);
+            var claims = _userDal.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
+
+        
     }
 }
