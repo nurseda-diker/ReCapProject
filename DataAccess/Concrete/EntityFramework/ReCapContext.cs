@@ -27,6 +27,7 @@ namespace DataAccess.Concrete
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
 
 
 

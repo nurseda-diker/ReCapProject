@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class mig1 : Migration
+    public partial class mig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,7 +46,8 @@ namespace DataAccess.Migrations
                     CarName = table.Column<string>(nullable: true),
                     ModelYear = table.Column<int>(nullable: false),
                     DailyPrice = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    FindexPoint = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,13 +68,33 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CreditCards",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(nullable: false),
+                    CardNumber = table.Column<string>(nullable: true),
+                    ExpireYear = table.Column<string>(nullable: true),
+                    ExpireMonth = table.Column<string>(nullable: true),
+                    Cvv = table.Column<string>(nullable: true),
+                    CardOwner = table.Column<string>(nullable: true),
+                    Amount = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CreditCards", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
-                    CompanyName = table.Column<string>(nullable: true)
+                    CompanyName = table.Column<string>(nullable: true),
+                    FindexPoint = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -173,6 +194,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Colors");
+
+            migrationBuilder.DropTable(
+                name: "CreditCards");
 
             migrationBuilder.DropTable(
                 name: "Customers");

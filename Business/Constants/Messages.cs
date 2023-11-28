@@ -53,5 +53,11 @@ namespace Business.Constants
         public static string RentalSuccess="Araç kiralanabilir.";
         public static string CarIsReturned="Araba teslim edildi.";
         public static string Success = "İşlem başarılı";
+        public static string CardSaved="Kart kaydedildi!";
+        public static string CardUpdated="Kart bilgileri güncellendi!";
+        public static string CardsListed="Kart bilgileri listelendi.";
+        public static string CardNotFound="Kart bulunamadı.";
+        public static string CardNotValid="Kart geçersiz";
+        public static string CardDeleted="Kart silindi";
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ReCapContext))]
-    [Migration("20230928213852_mig1")]
-    partial class mig1
+    [Migration("20231127164251_mig")]
+    partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FindexPoint")
+                        .HasColumnType("int");
+
                     b.Property<int>("ModelYear")
                         .HasColumnType("int");
 
@@ -102,6 +105,39 @@ namespace DataAccess.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.CreditCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CardOwner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cvv")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpireMonth")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpireYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CreditCards");
+                });
+
             modelBuilder.Entity("Entities.Concrete.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -111,6 +147,9 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FindexPoint")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

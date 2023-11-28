@@ -64,6 +64,7 @@ namespace Business.Concrete
         {
             var result = BusinessRules.Run(CheckIfThisCarIsAlreadyRentedInSelectedDateRange(rental),
                         CheckIfReturnDateIsBeforeRentDate(rental.ReturnDate,Convert.ToDateTime(rental.RentDate)),
+                        FindexScoreCheck(rental.CustomerId,rental.CarId),
                         UpdateCustomerFindexScore(rental.CustomerId,rental.CarId));
 
             if(result != null)
