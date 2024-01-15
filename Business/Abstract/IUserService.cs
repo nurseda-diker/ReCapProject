@@ -18,6 +18,6 @@ namespace Business.Abstract
         List<OperationClaim> GetClaims(User user);
         IDataResult<User> GetByMail(string email);
 
-        IResult UpdateInfo(User user);
+        IResult UpdateInfo(User user,string password);
     }
 }

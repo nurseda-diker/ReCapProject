@@ -56,6 +56,7 @@
     <Compile Include="DTOs\RentalDto.cs" />
     <Compile Include="DTOs\UserForRegisterDto.cs" />
     <Compile Include="DTOs\UserForLoginDto.cs" />
+    <Compile Include="DTOs\UserForUpdateDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

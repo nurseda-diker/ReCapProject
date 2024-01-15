@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -71,9 +72,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("updateinfo")]
-        public IActionResult UpdateInfo(User user)
+        public IActionResult UpdateInfo(UserForUpdateDto userForUpdateDto)
         {
-            var result = _userService.UpdateInfo(user);
+            var result = _userService.UpdateInfo(userForUpdateDto.User, userForUpdateDto.Password);
             if (result.Success)
             {
                 return Ok(result);
